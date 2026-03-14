@@ -7,6 +7,8 @@
     "dev": "nuxt dev",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
     "test": "vitest",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -24,10 +26,12 @@
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
+    "oxfmt": "^0.40.0",
     "oxlint": "^1.55.0",
     "vitest": "^4.1.0"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint"
+    "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint",
+    "*": "oxfmt --no-error-on-unmatched-pattern"
   }
 }
