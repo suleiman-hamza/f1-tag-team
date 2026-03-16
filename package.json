@@ -17,12 +17,20 @@
   },
   "dependencies": {
     "@nuxt/ui": "^4.5.1",
+    "@onmax/nuxt-better-auth": "0.0.2-alpha.30",
+    "better-auth": "^1.5.5",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
     "nuxt": "^4.4.2",
+    "postgres": "^3.4.8",
     "tailwindcss": "^4.2.1",
     "vue": "^3.5.30",
     "vue-router": "^5.0.3"
   },
   "devDependencies": {
+    "@types/pg": "^8.18.0",
+    "drizzle-kit": "^0.31.9",
+    "tsx": "^4.21.0",
     "vite-plus": "latest",
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   },

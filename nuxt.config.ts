@@ -35,7 +35,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@nuxt/ui"],
+  modules: ["@nuxt/ui", "@onmax/nuxt-better-auth"],
   css: ["~/assets/css/main.css"],
   ui: {
     theme: {
