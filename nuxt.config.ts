@@ -37,6 +37,11 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxt/ui"],
   css: ["~/assets/css/main.css"],
+  ui: {
+    theme: {
+      colors: ["primary", "secondary", "success", "info", "warning", "error"],
+    },
+  },
   runtimeConfig: {
     // The private keys which are only available within server-side
     apiSecret: "123",

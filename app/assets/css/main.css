@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@theme {
+    --color-brand-500: #2f8dda;
+    --text-brand-100: #2f8dda;
+}
