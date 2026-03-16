@@ -5,3 +5,11 @@
     --color-brand-500: #2f8dda;
     --text-brand-100: #2f8dda;
 }
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background-color: var(--color-zinc-950);
+}
