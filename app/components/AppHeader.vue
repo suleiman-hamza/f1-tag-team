@@ -1,5 +1,6 @@
 <script setup lang="ts">
-// const { user, loggedIn, signOut } = useUserSession()
+const { loggedIn, user, session, client, signIn, signOut } = useUserSession()
+
 const route = useRoute()
 
 const mobileOpen = ref(false)
@@ -40,7 +41,7 @@ const navItems = computed(() => {
 <template>
     <header class="sticky top-0 z-50 bg-zinc-950 border-b border-zinc-800/80">
         <div class="h-0.75 bg-brand-500" />
-        <Ucontainer class="h-14 flex">
+        <UContainer class="h-14 flex gap-6 justify-between">
             <div class="border flex gap-3 items-center ">
                 <NuxtLink to="/" class="flex gap-3 items-center">
                     <F1Logo class="text-brand-500 w-auto h-5 sm:h-7" />
@@ -48,12 +49,28 @@ const navItems = computed(() => {
                     <span class="font-black text-sm uppercase tracking-[0.2em] text-zinc-300">League</span>
                 </NuxtLink>
 
-                <UPopover>
-                    <UButton label="Open" color="neutral" variant="subtle" />
+                <!-- <UPopover v-if="loggedIn && leagues?.length" class="hidden md:block">
+                    <button
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-600 transition-colors text-sm font-semibold">
+                        {{ activeLeague?.name ?? 'Select league' }}
+                        <UIcon name="i-lucide-chevron-down" class="size-3 text-zinc-500" />
+                    </button>
                     <template #content>
-                        <div class="w-40 p-2"></div>
+                        <div class="w-56 p-1">
+                            <NuxtLink v-for="l in leagues" :key="l.id" :to="leagueSwitchLink(l.slug)"
+                                class="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors"
+                                :class="l.slug === activeLeague?.slug ? 'text-white bg-zinc-800' : 'text-zinc-300 hover:bg-zinc-800'">
+                                {{ l.name }}
+                            </NuxtLink>
+                            <div class="h-px bg-zinc-800 my-1" />
+                            <NuxtLink to="/"
+                                class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-500 hover:bg-zinc-800 hover:text-white rounded-md transition-colors">
+                                <UIcon name="i-lucide-layout-grid" class="size-3.5" />
+                                All leagues
+                            </NuxtLink>
+                        </div>
                     </template>
-                </UPopover>
+</UPopover> -->
 
                 <nav class="hidden md:flex items-center">
                     <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to"
@@ -65,14 +82,14 @@ const navItems = computed(() => {
             </div>
 
             <div class="flex items-center gap-2">
-                <!-- 
                 <template v-if="loggedIn">
-                    <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
+                    <p>Logged in</p>
+                    <!-- <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
                         class="hidden md:flex items-center justify-center size-8 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800/50 transition-colors">
                         <UIcon name="i-lucide-settings" class="size-4" />
                     </NuxtLink> -->
 
-                <!-- <UPopover v-model:open="menuOpen">
+                    <!-- <UPopover v-model:open="menuOpen">
                         <button
                             class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-zinc-800/50 transition-colors">
                             <UAvatar :src="avatarUrl || undefined" :alt="user?.name || undefined"
@@ -113,17 +130,16 @@ const navItems = computed(() => {
                                 </button>
                             </div>
                         </template>
-    </UPopover> 
-</template>
--->
-                <!-- <template v-else>
-                    <UButton to="" label="Sign In" variant="ghost" color="neutral" size="sm"
-                        class="font-semibold uppercase tracking-wider text-xs" />
+    </UPopover> -->
+                </template>
+                <template v-else>
+                    <UButton to="/login" label="Sign In" variant="outline" size="sm"
+                        class="font-semibold uppercase tracking-wider text-xs text-brand-500/80 border-brand-500 border" />
                     <UButton to="/register" label="Register" size="sm"
                         class="font-semibold uppercase tracking-wider text-xs bg-brand-500 hover:bg-[#004dc0] border-0" />
-                </template> -->
+                </template>
             </div>
 
-        </Ucontainer>
+        </UContainer>
     </header>
 </template>

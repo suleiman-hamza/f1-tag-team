@@ -13,7 +13,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prepare": "vp config"
+    "prepare": "vp config",
+    "auth:schema": "npx @better-auth/cli generate --config server/utils/auth.ts --output server/db/schema/auth.ts -y",
+    "auth:migrate": "npx @better-auth/cli migrate --config server/utils/auth.ts",
+    "db:generate": "drizzle-kit generate --config ./server/db/drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config ./server/db/drizzle.config.ts",
+    "db:push": "drizzle-kit push --config ./server/db/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config ./server/db/drizzle.config.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^4.5.1",
