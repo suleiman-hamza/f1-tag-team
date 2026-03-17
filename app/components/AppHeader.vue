@@ -42,7 +42,7 @@ const navItems = computed(() => {
     <header class="sticky top-0 z-50 bg-zinc-950 border-b border-zinc-800/80">
         <div class="h-0.75 bg-brand-500" />
         <UContainer class="h-14 flex gap-6 justify-between">
-            <div class="border flex gap-3 items-center ">
+            <div class="flex gap-3 items-center ">
                 <NuxtLink to="/" class="flex gap-3 items-center">
                     <F1Logo class="text-brand-500 w-auto h-5 sm:h-7" />
                     <div class="h-5 w-px bg-zinc-700" />

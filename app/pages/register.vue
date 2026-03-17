@@ -36,9 +36,9 @@ function sendCode(event: FormSubmitEvent<InfoSchema>) {
 </script>
 
 <template>
-    <div class="border flex items-center justify-center min-h-[calc(100dvh-60px)] px-4">
-        <div class="max-w-sm w-full border">
-            <div class="text-center mb-8 border">
+    <div class="flex items-center justify-center min-h-[calc(100dvh-60px)] px-4">
+        <div class="max-w-sm w-full">
+            <div class="text-center mb-8">
                 <div class="flex gap-3 justify-center items-center mb-6">
                     <F1Logo class="text-brand-500 w-auto h-5 sm:h-7" />
                     <div class="h-5 w-px bg-zinc-700" />
@@ -66,25 +66,41 @@ function sendCode(event: FormSubmitEvent<InfoSchema>) {
                         class="mt-2 font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
                 </UForm>
                 <!--otp state form visible on condition step==='otp-->
-                <UForm v-else :schema="otpSchema" :state="otpState" class="flex flex-col gap-4">
+                <UForm v-else :schema="otpSchema" :state="otpState"
+                    class="flex flex-col justify-center items-center gap-4">
+                    <span class="">
+                        <UIcon name="i-lucide-message-square-more" class="size-10" />
+                    </span>
+
                     <p class="text-sm text-zinc-400">
-                        Code sent to <span class="text-white font-medium">{{ infoState.email }}</span>
+                        We've sent a code to <span class="text-white font-medium">{{ infoState.email }}</span>
                     </p>
-                    <UFormField label="Verification code" name="otp" required>
+
+                    <UFormField name="otp" class="flex text-center justify-center" required>
                         <UPinInput type="number" otp :length="6" placeholder="_" v-model="otpState.otp" size="lg"
-                            class="w-full text-center font-mono text-lg tracking-[0.3em]" autofocus />
+                            class="mx-auto text-center font-mono text-lg tracking-[0.3em]" autofocus />
                     </UFormField>
-                    <UButton type="submit" label="Create account" icon="i-lucide-user-plus" block :loading size="lg"
-                        class="mt-2 font-bold bg-[#E10600] hover:bg-[#c00500] border-0" />
-                    <button type="button" class="text-xs text-zinc-500 hover:text-white transition-colors"
-                        @click="step = 'info'">
-                        Change email
-                    </button>
+
+                    <UButton type="submit" label="Verify" block :loading size="lg"
+                        class="mt-2 font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
+
+                    <UFieldGroup class="flex gap-6">
+                        <button type="button" class="text-xs text-zinc-500 hover:text-white transition-colors"
+                            @click="step = 'info'">
+                            Change email
+                        </button>
+                        <div class="h-5 w-px bg-zinc-700" />
+                        <button type="button" class="text-xs text-zinc-500 hover:text-white transition-colors"
+                            @click="step = 'info'">
+                            Resend
+                        </button>
+                    </UFieldGroup>
                 </UForm>
             </div>
+
             <p class="text-center text-sm text-zinc-500 mt-6">
                 Already have an account?
-                <NuxtLink to="/login" class="text-[#E10600] font-semibold hover:underline">
+                <NuxtLink to="/login" class="text-brand-500 font-semibold hover:underline">
                     Sign in
                 </NuxtLink>
             </p>
