@@ -50,4 +50,9 @@ export default defineNuxtConfig({
       apiBase: "/api",
     },
   },
+  vite: {
+    optimizeDeps: {
+      include: ["zod"],
+    },
+  },
 });
