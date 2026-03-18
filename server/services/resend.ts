@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { render } from "@vue-email/render";
 
 let _resend: Resend | null = null;
 
@@ -16,4 +17,13 @@ function getSender(): string {
   return (config.private?.senderEmail ||
     config.senderEmail ||
     "F1 League <noreply@f1league.app>") as string;
+}
+
+export async function sendOtpEmail(
+  to: string,
+  otp: string,
+  magicLink?: string,
+) {
+  const resend = getResend();
+  console.log(resend);
 }

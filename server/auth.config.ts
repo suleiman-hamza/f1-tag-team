@@ -2,11 +2,13 @@ import { defineServerAuth } from "@onmax/nuxt-better-auth/config";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, emailOTP } from "better-auth/plugins";
 import { drizzle } from "drizzle-orm/postgres-js";
+import { sendOtpEmail } from "./services/resend";
+import { schema } from "./db/schema/auth-schema";
 
 const db = drizzle(process.env.DATABASE_URL!);
 
 export default defineServerAuth({
-  database: drizzleAdapter(db, { provider: "pg" }),
+  database: drizzleAdapter(db, { provider: "pg", schema }),
   appName: "F1 League",
   emailAndPassword: { enabled: false },
   plugins: [
@@ -17,6 +19,7 @@ export default defineServerAuth({
         const baseUrl = process.env.BETTER_AUTH_URL;
         const magicLink = `${baseUrl}/login?email=${encodeURIComponent(email)}&code=${otp}`;
         // await send otp from resend here
+        await sendOtpEmail(email, otp, magicLink);
       },
     }),
   ],
