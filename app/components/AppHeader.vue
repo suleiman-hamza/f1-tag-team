@@ -1,41 +1,52 @@
 <script setup lang="ts">
-const { loggedIn, user, session, client, signIn, signOut } = useUserSession()
+const { loggedIn, user, signOut } = useUserSession()
 
 const route = useRoute()
 
 const mobileOpen = ref(false)
 const menuOpen = ref(false)
 
-// const { data: leagues } = useLeagues()
-// const lastLeague = useLastLeague()
+const { data: leagues } = useLeagues()
+const lastLeague = useLastLeague()
 
-// const currentLeagueSlug = computed(() => {
-//   const { slug } = route.params
-//   return typeof slug === 'string' ? slug : undefined
-// })
+const isSuperAdmin = computed(() => user.value?.role === 'admin')
+const isLeagueAdmin = computed(() => activeLeague.value?.role === 'admin')
 
-// const currentLeague = computed(() => {
-//   if (!currentLeagueSlug.value || !leagues.value) return null
-//   return leagues.value.find(l => l.slug === currentLeagueSlug.value) ?? null
-// })
+const currentLeagueSlug = computed(() => {
+    const { slug } = route.params
+    return typeof slug === 'string' ? slug : undefined
+})
+
+const currentLeague = computed(() => {
+    if (!currentLeagueSlug.value || !leagues.value) return null
+    return leagues.value.find(l => l.slug === currentLeagueSlug.value) ?? null
+})
 
 // So activeLeague could be: the currently selected league or the last league used
-// const activeLeague = computed(() => currentLeague.value ?? lastLeague.value)
+const activeLeague = computed(() => currentLeague.value ?? lastLeague.value)
 
 const navItems = computed(() => {
     const items: { label: string, to: string, icon: string }[] = []
     // If the user is not logged in, the function immediately returns the empty array
-    // if (!loggedIn.value) return items
+    if (!loggedIn.value) return items
 
     // Always Add the Schedule Item (if logged in)
-    // items.push({ label: 'Schedule', to: '/races', icon: 'i-lucide-calendar' })
+    items.push({ label: 'Schedule', to: '/races', icon: 'i-lucide-calendar' })
 
     // Add Standings Only If There Is an Active League
-    // if (activeLeague.value) {
-    //     items.push({ label: 'Standings', to: `/leagues/${activeLeague.value.slug}/leaderboard`, icon: 'i-lucide-trophy' })
-    // }
+    if (activeLeague.value) {
+        items.push({ label: 'Standings', to: `/leagues/${activeLeague.value.slug}/leaderboard`, icon: 'i-lucide-trophy' })
+    }
     return items
 })
+
+async function handleSignOut() {
+    menuOpen.value = false
+    await signOut()
+    navigateTo('/login')
+}
+
+const avatarUrl = computed(() => user.value?.image || null)
 </script>
 
 <template>
@@ -49,7 +60,7 @@ const navItems = computed(() => {
                     <span class="font-black text-sm uppercase tracking-[0.2em] text-zinc-300">League</span>
                 </NuxtLink>
 
-                <!-- <UPopover v-if="loggedIn && leagues?.length" class="hidden md:block">
+                <UPopover v-if="loggedIn && leagues?.length" class="hidden md:block">
                     <button
                         class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-600 transition-colors text-sm font-semibold">
                         {{ activeLeague?.name ?? 'Select league' }}
@@ -57,11 +68,11 @@ const navItems = computed(() => {
                     </button>
                     <template #content>
                         <div class="w-56 p-1">
-                            <NuxtLink v-for="l in leagues" :key="l.id" :to="leagueSwitchLink(l.slug)"
+                            <!-- <NuxtLink v-for="l in leagues" :key="l.id" :to="leagueSwitchLink(l.slug)"
                                 class="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors"
                                 :class="l.slug === activeLeague?.slug ? 'text-white bg-zinc-800' : 'text-zinc-300 hover:bg-zinc-800'">
                                 {{ l.name }}
-                            </NuxtLink>
+                            </NuxtLink> -->
                             <div class="h-px bg-zinc-800 my-1" />
                             <NuxtLink to="/"
                                 class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-500 hover:bg-zinc-800 hover:text-white rounded-md transition-colors">
@@ -70,7 +81,7 @@ const navItems = computed(() => {
                             </NuxtLink>
                         </div>
                     </template>
-</UPopover> -->
+                </UPopover>
 
                 <nav class="hidden md:flex items-center">
                     <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to"
@@ -84,12 +95,12 @@ const navItems = computed(() => {
             <div class="flex items-center gap-2">
                 <template v-if="loggedIn">
                     <p>Logged in</p>
-                    <!-- <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
+                    <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
                         class="hidden md:flex items-center justify-center size-8 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800/50 transition-colors">
                         <UIcon name="i-lucide-settings" class="size-4" />
-                    </NuxtLink> -->
+                    </NuxtLink>
 
-                    <!-- <UPopover v-model:open="menuOpen">
+                    <<UPopover v-model:open="menuOpen">
                         <button
                             class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-zinc-800/50 transition-colors">
                             <UAvatar :src="avatarUrl || undefined" :alt="user?.name || undefined"
@@ -130,7 +141,7 @@ const navItems = computed(() => {
                                 </button>
                             </div>
                         </template>
-    </UPopover> -->
+                        </UPopover>
                 </template>
                 <template v-else>
                     <UButton to="/login" label="Sign In" variant="outline" size="sm"

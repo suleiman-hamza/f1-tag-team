@@ -2,7 +2,7 @@
 import { z } from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
-const { client } = useUserSession()
+const { client, fetchSession, user } = useUserSession()
 const toast = useToast()
 
 definePageMeta({ auth: 'guest' })
@@ -34,9 +34,28 @@ async function sendCode() {
         })
         step.value = 'otp'
         toast.add({ title: 'Code sent', description: 'Check your email for the verification code', color: 'success', icon: 'i-lucide-mail' })
-    } catch (error) {
-        console.warn('Error Processing..', error)
-        // toast.add({ title: 'Error', description: 'Could not send code', color: 'error' })
+    } catch {
+        toast.add({ title: 'Error', description: 'Could not send code', color: 'error' })
+    } finally {
+        loading.value = false
+    }
+}
+
+async function verifyAndRegister() {
+    loading.value = true
+    try {
+        await client!.signIn.emailOtp({
+            email: infoState.email!,
+            otp: otpState.otp,
+        })
+        await fetchSession({ force: true })
+        if (infoState.name) {
+            await $fetch('/api/user/profile', { method: 'POST', body: { name: infoState.name } }).catch(() => { })
+            if (user.value) user.value = { ...user.value, name: infoState.name }
+        }
+        navigateTo('/')
+    } catch {
+        toast.add({ title: 'Invalid code', description: 'The code is incorrect or expired', color: 'error' })
     } finally {
         loading.value = false
     }
@@ -74,7 +93,7 @@ async function sendCode() {
                         class="mt-2 font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
                 </UForm>
                 <!--otp state form visible on condition step==='otp-->
-                <UForm v-else :schema="otpSchema" :state="otpState"
+                <UForm v-else :schema="otpSchema" :state="otpState" @submit="verifyAndRegister"
                     class="flex flex-col justify-center items-center gap-4">
                     <span class="">
                         <UIcon name="i-lucide-message-square-more" class="size-10" />

@@ -36,7 +36,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@nuxt/ui", "@onmax/nuxt-better-auth"],
+  modules: ["@nuxt/ui", "@onmax/nuxt-better-auth", "@vueuse/nuxt"],
   css: ["~/assets/css/main.css"],
   auth: {
     redirects: {
@@ -69,7 +69,7 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ["zod"],
+      include: ["zod", "better-auth/client/plugins"],
     },
   },
 });
