@@ -2,7 +2,10 @@
 import { z } from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 
-// definePageMeta({ auth: 'guest' })
+const { client } = useUserSession()
+const toast = useToast()
+
+definePageMeta({ auth: 'guest' })
 useSeoMeta({ title: 'Join the League — F1 League' })
 
 const step = ref<'info' | 'otp'>('info')
@@ -22,10 +25,15 @@ const otpSchema = z.object({
 })
 const otpState = reactive({ otp: undefined })
 
-function sendCode(event: FormSubmitEvent<InfoSchema>) {
+async function sendCode() {
     loading.value = true
     try {
+        await client!.emailOtp.sendVerificationOtp({
+            email: infoState.email!,
+            type: 'sign-in',
+        })
         step.value = 'otp'
+        toast.add({ title: 'Code sent', description: 'Check your email for the verification code', color: 'success', icon: 'i-lucide-mail' })
     } catch (error) {
         console.warn('Error Processing..', error)
         // toast.add({ title: 'Error', description: 'Could not send code', color: 'error' })

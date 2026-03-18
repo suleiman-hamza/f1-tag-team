@@ -37,6 +37,12 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxt/ui", "@onmax/nuxt-better-auth"],
   css: ["~/assets/css/main.css"],
+  auth: {
+    redirects: {
+      login: "/login",
+      guest: "/",
+    },
+  },
   ui: {
     theme: {
       colors: ["primary", "secondary", "success", "info", "warning", "error"],
