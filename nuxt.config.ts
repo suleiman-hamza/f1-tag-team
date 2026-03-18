@@ -1,3 +1,4 @@
+import vue from "@vitejs/plugin-vue";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
@@ -48,9 +49,19 @@ export default defineNuxtConfig({
       colors: ["primary", "secondary", "success", "info", "warning", "error"],
     },
   },
+  nitro: {
+    imports: {
+      dirs: ["./server/services"],
+    },
+    rollupConfig: {
+      plugins: [vue()],
+    },
+  },
   runtimeConfig: {
-    // The private keys which are only available within server-side
-    apiSecret: "123",
+    private: {
+      senderEmail: "",
+      resendApiKey: process.env.RESEND_API_KEY,
+    },
     // Keys within public, will be also exposed to the client-side
     public: {
       apiBase: "/api",
