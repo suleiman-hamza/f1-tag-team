@@ -4,12 +4,15 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 const { client, fetchSession, user } = useUserSession()
 const toast = useToast()
+const route = useRoute()
+const redirectTo = (route.query.redirect as string) || '/'
 
 definePageMeta({ auth: 'guest' })
 useSeoMeta({ title: 'Join the League — F1 League' })
 
 const step = ref<'info' | 'otp'>('info')
 const loading = ref(false)
+const showPassword = ref(false)
 
 const infoSchema = z.object({
     name: z.string().min(1, 'Name is required').max(50, '50 characters max'),
@@ -19,11 +22,43 @@ const infoSchema = z.object({
 type InfoSchema = z.output<typeof infoSchema>
 
 const infoState = reactive<Partial<InfoSchema>>({ name: '', email: '' })
+const passwordState = reactive({ password: '' })
 
 const otpSchema = z.object({
-    otp: z.array(z.int()),
+    otp: z.string().length(6, 'Code must be 6 digits'),
 })
 const otpState = reactive({ otp: undefined })
+
+async function submitInfo() {
+    if (showPassword.value && passwordState.password) {
+        if (passwordState.password.length < 8) {
+            toast.add({ title: 'Error', description: 'Password must be at least 8 characters', color: 'error' })
+            return
+        }
+        await registerWithPassword()
+    } else {
+        sendCode()
+    }
+}
+
+async function registerWithPassword() {
+    loading.value = true
+    try {
+        const { error } = await client!.signUp.email({
+            email: infoState.email!,
+            name: infoState.name!,
+            password: passwordState.password
+        })
+        if (error) {
+            throw error
+        }
+        navigateTo(redirectTo)
+    } catch {
+        toast.add({ title: 'Error', description: 'Could not create account. The email may already be registered.', color: 'error' })
+    } finally {
+        loading.value = false
+    }
+}
 
 async function sendCode() {
     loading.value = true
@@ -77,7 +112,7 @@ async function verifyAndRegister() {
                 <p class="text-zinc-500 text-sm mt-1">Create your account and start predicting</p>
             </div>
             <div class="rounded-2xl bg-zinc-900/50 border-zinc-800 border p-6">
-                <UForm v-if="step === 'info'" :schema="infoSchema" :state="infoState" @submit="sendCode"
+                <UForm v-if="step === 'info'" :schema="infoSchema" :state="infoState" @submit="submitInfo"
                     class="flex flex-col gap-4">
                     <UFormField label="Name" name="fullname" required>
                         <UInput v-model="infoState.name" placeholder="Your name" size="lg" class="w-full bg-transparent"
@@ -89,8 +124,25 @@ async function verifyAndRegister() {
                             class="w-full" />
                     </UFormField>
 
-                    <UButton type="submit" label="Send verification code" icon="i-lucide-mail" block :loading size="lg"
-                        class="mt-2 font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
+                    <div v-if="showPassword">
+                        <UFormField label="Password" name="password" description="At least 8 characters">
+                            <UInput v-model="passwordState.password" type="password" placeholder="Choose a password"
+                                size="lg" class="w-full" />
+                        </UFormField>
+                    </div>
+                    <button v-else type="button"
+                        class="text-xs text-zinc-500 hover:text-white transition-colors text-left"
+                        @click="showPassword = true">
+                        Set a password (optional)
+                    </button>
+
+                    <UButton type="submit"
+                        :label="showPassword && passwordState.password ? 'Create account' : 'Send verification code'"
+                        :icon="showPassword && passwordState.password ? 'i-lucide-user-plus' : 'i-lucide-mail'" block
+                        :loading size="lg" class="mt-2 font-bold bg-f1-600 hover:bg-f1-700 border-0" />
+
+                    <!-- <UButton type="submit" label="Send verification code" icon="i-lucide-mail" block :loading size="lg"
+                        class="mt-2 font-bold bg-brand-500 hover:bg-[#004dc0] border-0" /> -->
                 </UForm>
                 <!--otp state form visible on condition step==='otp-->
                 <UForm v-else :schema="otpSchema" :state="otpState" @submit="verifyAndRegister"
@@ -104,8 +156,10 @@ async function verifyAndRegister() {
                     </p>
 
                     <UFormField name="otp" class="flex text-center justify-center" required>
-                        <UPinInput type="number" otp :length="6" placeholder="_" v-model="otpState.otp" size="lg"
-                            class="mx-auto text-center font-mono text-lg tracking-[0.3em]" autofocus />
+                        <UInput v-model="otpState.otp" placeholder="000000" size="lg"
+                            class="w-full text-center font-mono text-lg tracking-[0.3em]" maxlength="6" autofocus />
+                        <!-- <UPinInput type="number" otp :length="6" placeholder="_" v-model="otpState.otp" size="lg"
+                            class="mx-auto text-center font-mono text-lg tracking-[0.3em]" autofocus /> -->
                     </UFormField>
 
                     <UButton type="submit" label="Verify" block :loading size="lg"

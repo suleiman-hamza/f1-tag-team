@@ -15,7 +15,7 @@ const { loggedIn, user } = useUserSession()
                 class="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-brand-500/40 to-transparent" />
 
             <UContainer class="relative py-28 lg:py-32">
-                <div class="max-w-2xl border">
+                <div class="max-w-2xl">
                     <p class="text-xs font-bold uppercase tracking-[0.3em] text-zinc-500 mb-8">
                         Prediction League — 2026 Season
                     </p>
@@ -38,5 +38,19 @@ const { loggedIn, user } = useUserSession()
                 </div>
             </UContainer>
         </div>
+    </main>
+    <main v-else>
+        <UContainer class="py-8">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <p class="text-sm text-zinc-500 uppercase tracking-[0.15em] font-semibold">
+                        Dashboard
+                    </p>
+                    <h1 class="text-2xl font-black mt-1">
+                        Hey {{ user?.name }}
+                    </h1>
+                </div>
+            </div>
+        </UContainer>
     </main>
 </template>

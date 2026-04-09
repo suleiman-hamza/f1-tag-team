@@ -10,7 +10,7 @@ const db = drizzle(process.env.DATABASE_URL!);
 export default defineServerAuth({
   database: drizzleAdapter(db, { provider: "pg", schema }),
   appName: "F1 League",
-  emailAndPassword: { enabled: false },
+  emailAndPassword: { enabled: true },
   plugins: [
     emailOTP({
       otpLength: 6,
