@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { render } from "@vue-email/render";
+import { createRequestLogger } from "evlog";
 
 let _resend: Resend | null = null;
 
@@ -53,8 +54,10 @@ export async function sendOtpEmail(
 export async function sendWelcomeEmail(to: string, name: string) {
   const resend = getResend();
   if (!resend) {
-    // const log = createRequestLogger({ email: { type: 'welcome', to, name, devMode: true } })
-    // log.emit()
+    const log = createRequestLogger({
+      email: { type: "welcome", to, name, devMode: true },
+    });
+    log.emit();
     return;
   }
 
@@ -80,8 +83,10 @@ export async function sendReminderEmail(
 ) {
   const resend = getResend();
   if (!resend) {
-    // const log = createRequestLogger({ email: { type: 'reminder', to, raceName: data.raceName, devMode: true } })
-    // log.emit()
+    const log = createRequestLogger({
+      email: { type: "reminder", to, raceName: data.raceName, devMode: true },
+    });
+    log.emit();
     return;
   }
 
