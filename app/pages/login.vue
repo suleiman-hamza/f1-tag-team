@@ -164,7 +164,7 @@ async function requestPasswordReset() {
                             class="w-full" autofocus />
                     </UFormField>
                     <UButton type="submit" label="Send login code" icon="i-lucide-mail" block :loading size="lg"
-                        class="mt-2 font-bold bg-brand-600 hover:bg-brand-700 border" />
+                        class="mt-2 font-bold bg-brand-500 hover:bg-[] border" />
                     <button type="button" class="text-xs text-zinc-500 hover:text-white transition-colors text-center"
                         @click="mode = 'password'">
                         Sign in with password
