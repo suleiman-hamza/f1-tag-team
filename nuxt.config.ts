@@ -58,10 +58,8 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    private: {
-      senderEmail: "",
-      resendApiKey: process.env.RESEND_API_KEY,
-    },
+    senderEmail: process.env.NUXT_PRIVATE_SENDER_EMAIL,
+    resendApiKey: process.env.RESEND_API_KEY,
     // Keys within public, will be also exposed to the client-side
     public: {
       apiBase: "/api",

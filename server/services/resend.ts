@@ -14,9 +14,7 @@ function getResend(): Resend | null {
 
 function getSender(): string {
   const config = useRuntimeConfig();
-  return (config.private?.senderEmail ||
-    config.senderEmail ||
-    "F1 League <noreply@f1league.app>") as string;
+  return (config.senderEmail || "Acme <onboarding@resend.dev>") as string;
 }
 
 export async function sendOtpEmail(
@@ -29,14 +27,27 @@ export async function sendOtpEmail(
     return;
   }
 
+  // Render the email template with the OTP and magic link
   const { default: template } = await import("../emails/otpEmail.vue");
   const html = await render(template, { otp, magicLink: magicLink || "" });
-  await resend.emails.send({
-    from: getSender(),
-    to,
-    subject: `${otp} — Your F1 League login code`,
-    html,
-  });
+
+  try {
+    // Send the email using Resend
+    const { error } = await resend.emails.send({
+      from: getSender(),
+      to,
+      subject: `${otp} — Your F1 League login code`,
+      html,
+    });
+
+    if (error) {
+      console.error("Resend error:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    throw error;
+  }
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {
