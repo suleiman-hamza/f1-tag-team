@@ -10,7 +10,7 @@ const toast = useToast()
 const route = useRoute()
 
 const queryEmail = route.query.email as string | undefined
-const queryCode = route.query.code as number | undefined
+const queryCode = route.query.code as string | undefined
 const redirectTo = (route.query.redirect as string) || '/'
 const isMagicLink = !!(queryEmail && queryCode)
 
