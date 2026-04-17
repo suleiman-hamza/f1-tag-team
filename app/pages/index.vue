@@ -5,6 +5,7 @@ useSeoMeta({
 })
 
 const { loggedIn, user } = useUserSession()
+const { data: leagues, status: leaguesStatus } = useLeagues()
 </script>
 <template>
     <main v-if="!loggedIn">

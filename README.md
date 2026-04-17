@@ -4,6 +4,7 @@
 - [x] Auth with [Better-Auth](https:better-auth.com) / [Nuxt Better-Auth Onmax](https://nuxt-better-auth.onmax.me/)
 - [x] SignIn with Password & OTP
 - [ ] Dashboard
+- [ ] Leaderboard & Timers
 - [ ] Logging, Observability with Evlog
 - [ ] Fetch Leagues
 - [ ] Invite Friends & Share League Links

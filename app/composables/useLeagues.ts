@@ -1,4 +1,4 @@
-// import { useLocalStorage } from '#'
+// define the shape of your data so TypeScript knows exactly what properties a league and its members should have.
 export interface LeagueMemberPreview {
   userId: string;
   name: string;
@@ -28,12 +28,14 @@ export function useLeagues() {
     watch: false,
   });
 
+  // sets up a client-side watcher
   if (import.meta.client) {
     const stop = watch(
       loggedIn,
       (isLoggedIn) => {
         if (isLoggedIn && !result.data.value) {
           result.refresh();
+          // immediately kills the watcher, so it doesn't unnecessarily re-trigger later
           stop();
         }
       },
@@ -43,7 +45,8 @@ export function useLeagues() {
 
   return result;
 }
-
+// It uses useLocalStorage (likely from VueUse) to remember the last league the user looked
+// Because local storage only exists in the browser, it safely falls back to a standard Vue ref during Server-Side Rendering (SSR) to prevent hydration mismatches.
 const lastLeagueSlug = import.meta.client
   ? useLocalStorage("f1-last-league", "")
   : ref("");

@@ -6,24 +6,24 @@ const route = useRoute()
 const mobileOpen = ref(false)
 const menuOpen = ref(false)
 
-const { data: leagues } = useLeagues()
-const lastLeague = useLastLeague()
+// const { data: leagues } = useLeagues()
+// const lastLeague = useLastLeague()
 
-const isSuperAdmin = computed(() => user.value?.role === 'admin')
-const isLeagueAdmin = computed(() => activeLeague.value?.role === 'admin')
+// const isSuperAdmin = computed(() => user.value?.role === 'admin')
+// const isLeagueAdmin = computed(() => activeLeague.value?.role === 'admin')
 
-const currentLeagueSlug = computed(() => {
-    const { slug } = route.params
-    return typeof slug === 'string' ? slug : undefined
-})
+// const currentLeagueSlug = computed(() => {
+//     const { slug } = route.params
+//     return typeof slug === 'string' ? slug : undefined
+// })
 
-const currentLeague = computed(() => {
-    if (!currentLeagueSlug.value || !leagues.value) return null
-    return leagues.value.find(l => l.slug === currentLeagueSlug.value) ?? null
-})
+// const currentLeague = computed(() => {
+//     if (!currentLeagueSlug.value || !leagues.value) return null
+//     return leagues.value.find(l => l.slug === currentLeagueSlug.value) ?? null
+// })
 
 // So activeLeague could be: the currently selected league or the last league used
-const activeLeague = computed(() => currentLeague.value ?? lastLeague.value)
+// const activeLeague = computed(() => currentLeague.value ?? lastLeague.value)
 
 const navItems = computed(() => {
     const items: { label: string, to: string, icon: string }[] = []
@@ -34,9 +34,9 @@ const navItems = computed(() => {
     items.push({ label: 'Schedule', to: '/races', icon: 'i-lucide-calendar' })
 
     // Add Standings Only If There Is an Active League
-    if (activeLeague.value) {
-        items.push({ label: 'Standings', to: `/leagues/${activeLeague.value.slug}/leaderboard`, icon: 'i-lucide-trophy' })
-    }
+    // if (activeLeague.value) {
+    //     items.push({ label: 'Standings', to: `/leagues/${activeLeague.value.slug}/leaderboard`, icon: 'i-lucide-trophy' })
+    // }
     return items
 })
 
@@ -60,20 +60,20 @@ const avatarUrl = computed(() => user.value?.image || null)
                     <span class="font-black text-sm uppercase tracking-[0.2em] text-zinc-300">League</span>
                 </NuxtLink>
 
-                <UPopover v-if="loggedIn && leagues?.length" class="hidden md:block">
+                <!-- <UPopover v-if="loggedIn && leagues?.length" class="hidden md:block">
                     <button
                         class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-600 transition-colors text-sm font-semibold">
                         {{ activeLeague?.name ?? 'Select league' }}
                         <UIcon name="i-lucide-chevron-down" class="size-3 text-zinc-500" />
                     </button>
                     <template #content>
-                        <div class="w-56 p-1">
-                            <!-- <NuxtLink v-for="l in leagues" :key="l.id" :to="leagueSwitchLink(l.slug)"
+                        <div class="w-56 p-1"> -->
+                <!-- <NuxtLink v-for="l in leagues" :key="l.id" :to="leagueSwitchLink(l.slug)"
                                 class="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors"
                                 :class="l.slug === activeLeague?.slug ? 'text-white bg-zinc-800' : 'text-zinc-300 hover:bg-zinc-800'">
                                 {{ l.name }}
                             </NuxtLink> -->
-                            <div class="h-px bg-zinc-800 my-1" />
+                <!-- <div class="h-px bg-zinc-800 my-1" />
                             <NuxtLink to="/"
                                 class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-500 hover:bg-zinc-800 hover:text-white rounded-md transition-colors">
                                 <UIcon name="i-lucide-layout-grid" class="size-3.5" />
@@ -81,7 +81,7 @@ const avatarUrl = computed(() => user.value?.image || null)
                             </NuxtLink>
                         </div>
                     </template>
-                </UPopover>
+</UPopover> -->
 
                 <nav class="hidden md:flex items-center">
                     <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to"
@@ -94,11 +94,10 @@ const avatarUrl = computed(() => user.value?.image || null)
 
             <div class="flex items-center gap-2">
                 <template v-if="loggedIn">
-                    <p>Logged in</p>
-                    <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
+                    <!-- <NuxtLink v-if="isLeagueAdmin && currentLeague" :to="`/leagues/${currentLeague.slug}/settings`"
                         class="hidden md:flex items-center justify-center size-8 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800/50 transition-colors">
                         <UIcon name="i-lucide-settings" class="size-4" />
-                    </NuxtLink>
+                    </NuxtLink> -->
 
                     <<UPopover v-model:open="menuOpen">
                         <button
@@ -126,12 +125,12 @@ const avatarUrl = computed(() => user.value?.image || null)
                                     <UIcon name="i-lucide-user" class="size-4 text-zinc-500" />
                                     Account
                                 </NuxtLink>
-                                <NuxtLink v-if="isSuperAdmin" to="/admin"
+                                <!-- <NuxtLink v-if="isSuperAdmin" to="/admin"
                                     class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md transition-colors"
                                     @click="menuOpen = false">
                                     <UIcon name="i-lucide-shield" class="size-4 text-zinc-500" />
                                     Super Admin
-                                </NuxtLink>
+                                </NuxtLink> -->
                                 <div class="h-px bg-zinc-800 my-1" />
                                 <button
                                     class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-md transition-colors"
