@@ -28,8 +28,8 @@ async function onSubmit() {
         })
         //invalidateCache('leagues')
         await refreshLeagues()
-        toast.add({ title: `Joined ${result.name}!`, color: 'success', icon: 'i-lucide-check' })
-        navigateTo(`/leagues/${result.slug}`)
+        toast.add({ title: `Joined ${result.league.name}!`, color: 'success', icon: 'i-lucide-check' })
+        navigateTo(`/leagues/${result.league.slug}`)
     } catch (e: any) {
         const message = e.data?.message || 'Something went wrong. Please try again.'
         error.value = message

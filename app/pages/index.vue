@@ -181,7 +181,7 @@ const teamColorMap: Record<string, string> = {
                 </div>
             </div> -->
 
-            <!-- <div class="grid gap-6 lg:grid-cols-2">
+            <div class="grid gap-6 lg:grid-cols-2">
                 <div v-if="(f1News as any[])?.length">
                     <h2 class="text-sm font-bold uppercase tracking-[0.15em] text-zinc-500 mb-3">
                         Latest F1 News
@@ -216,7 +216,7 @@ const teamColorMap: Record<string, string> = {
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </UContainer>
     </main>
 </template>
