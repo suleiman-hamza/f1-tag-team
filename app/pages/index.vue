@@ -89,7 +89,7 @@ const teamColorMap: Record<string, string> = {
                     <div class="flex items-center gap-2">
                         <UButton to="/leagues/join" label="Join" icon="i-lucide-log-in" variant="outline" size="sm" />
                         <UButton to="/leagues/create" label="Create" icon="i-lucide-plus" size="sm"
-                            class="bg-[#E10600] hover:bg-[#c00500] border-0" />
+                            class="bg-brand-500 hover:bg-[#c00500] border-0" />
                     </div>
                 </div>
                 <div v-if="!leagues?.length"
@@ -103,7 +103,7 @@ const teamColorMap: Record<string, string> = {
                     </p>
                     <div class="flex items-center justify-center gap-3">
                         <UButton to="/leagues/create" label="Create a league" icon="i-lucide-plus" size="lg"
-                            class="font-bold bg-[#E10600] hover:bg-[#c00500] border-0" />
+                            class="font-bold bg-brand-500 hover:bg-[#c00500] border-0" />
                         <UButton to="/leagues/join" label="Join a league" icon="i-lucide-log-in" variant="outline"
                             size="lg" />
                     </div>
