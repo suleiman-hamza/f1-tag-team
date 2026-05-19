@@ -57,7 +57,7 @@ const teamColorMap: Record<string, string> = {
                     </p>
                     <div class="flex items-center gap-4 mt-10">
                         <UButton to="/register" label="Get Started" size="xl"
-                            class="font-bold bg-brand-500 hover:bg-brand-600 border-0" />
+                            class="font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
                         <UButton to="/login" label="Sign in" variant="outline" size="xl" class="font-semibold" />
                     </div>
                 </div>
@@ -89,7 +89,7 @@ const teamColorMap: Record<string, string> = {
                     <div class="flex items-center gap-2">
                         <UButton to="/leagues/join" label="Join" icon="i-lucide-log-in" variant="outline" size="sm" />
                         <UButton to="/leagues/create" label="Create" icon="i-lucide-plus" size="sm"
-                            class="bg-brand-500 hover:bg-[#c00500] border-0" />
+                            class="bg-brand-500 hover:bg-[#004dc0] border-0" />
                     </div>
                 </div>
                 <div v-if="!leagues?.length"
@@ -103,20 +103,21 @@ const teamColorMap: Record<string, string> = {
                     </p>
                     <div class="flex items-center justify-center gap-3">
                         <UButton to="/leagues/create" label="Create a league" icon="i-lucide-plus" size="lg"
-                            class="font-bold bg-brand-500 hover:bg-[#c00500] border-0" />
+                            class="font-bold bg-brand-500 hover:bg-[#004dc0] border-0" />
                         <UButton to="/leagues/join" label="Join a league" icon="i-lucide-log-in" variant="outline"
                             size="lg" />
                     </div>
                 </div>
 
-                <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8 border">
+                <!--my leagues created-->
+                <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
                     <NuxtLink v-for="league in leagues" :key="league.id" :to="`/leagues/${league.slug}`"
                         class="group rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden hover:border-zinc-600 transition-all">
-                        <div class="h-1 bg-[#E10600]" />
+                        <div class="h-1 bg-brand-500" />
                         <div class="p-5">
                             <div class="flex items-center justify-between gap-3">
                                 <h3
-                                    class="font-black text-lg uppercase tracking-tight group-hover:text-[#E10600] transition-colors">
+                                    class="font-black text-lg uppercase tracking-tight group-hover:text-brand-500 transition-colors">
                                     {{ league.name }}
                                 </h3>
                                 <UBadge v-if="league.role === 'admin'" color="warning" variant="subtle" size="xs">
@@ -142,7 +143,7 @@ const teamColorMap: Record<string, string> = {
             </template>
 
             <!-- <div v-if="nextRace" class="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden mb-8">
-                <div class="h-1 bg-[#E10600]" />
+                <div class="h-1 bg-brand-500" />
                 <div class="p-6">
                     <div
                         class="flex items-center gap-2 text-xs text-zinc-500 uppercase tracking-[0.15em] font-semibold mb-4">
@@ -181,6 +182,7 @@ const teamColorMap: Record<string, string> = {
                 </div>
             </div> -->
 
+            <!--f1 news truncate to 5-->
             <div class="grid gap-6 lg:grid-cols-2">
                 <div v-if="(f1News as any[])?.length">
                     <h2 class="text-sm font-bold uppercase tracking-[0.15em] text-zinc-500 mb-3">

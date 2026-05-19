@@ -71,7 +71,7 @@ async function onSubmit() {
                 :close-button="{ onClick: () => error = '' }" />
 
             <UButton type="submit" label="Create League" size="lg" :loading
-                class="font-bold bg-[#E10600] hover:bg-[#c00500] border-0" block />
+                class="font-bold bg-brand-500 hover:bg-[#004dc0] border-0" block />
         </UForm>
     </UContainer>
 </template>
