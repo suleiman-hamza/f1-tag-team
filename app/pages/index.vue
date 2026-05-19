@@ -109,7 +109,7 @@ const teamColorMap: Record<string, string> = {
                     </div>
                 </div>
 
-                <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+                <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-8 border">
                     <NuxtLink v-for="league in leagues" :key="league.id" :to="`/leagues/${league.slug}`"
                         class="group rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden hover:border-zinc-600 transition-all">
                         <div class="h-1 bg-[#E10600]" />
