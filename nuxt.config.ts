@@ -72,6 +72,20 @@ export default defineNuxtConfig({
     rollupConfig: {
       plugins: [vue()],
     },
+    // Setup local storage drivers
+    storage: {
+      // Creates a mount point named 'kv'
+      kv: {
+        driver: "fs",
+        base: "./.data/kv", // Data will be stored in this local directory
+      },
+      // Overrides Nitro's default temporary cache to use a persistent local folder
+      cache: {
+        driver: "fs",
+        base: "./.data/cache",
+      },
+    },
+    // check kv storage on nitro: devStorage
   },
   runtimeConfig: {
     senderEmail: process.env.NUXT_PRIVATE_SENDER_EMAIL,

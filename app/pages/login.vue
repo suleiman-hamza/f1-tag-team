@@ -182,7 +182,7 @@ async function requestPasswordReset() {
                             class="w-full text-center font-mono text-lg tracking-[0.3em]" maxlength="6" autofocus />
                     </UFormField>
                     <UButton type="submit" label="Sign in" icon="i-lucide-log-in" block :loading size="lg"
-                        class="mt-2 font-bold bg-f1-600 hover:bg-f1-700 border-0" />
+                        class="mt-2 font-bold bg-brand-500 hover:bg-brand-500 border-0" />
                     <button type="button" class="text-xs text-zinc-500 hover:text-white transition-colors text-center"
                         @click="mode = 'otp'">
                         Use a different email

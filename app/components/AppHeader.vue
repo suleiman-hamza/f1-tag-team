@@ -86,7 +86,7 @@ const avatarUrl = computed(() => user.value?.image || null)
                 <nav class="hidden md:flex items-center">
                     <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to"
                         class="relative px-4 py-4 text-sm font-semibold text-zinc-400 hover:text-white transition-colors uppercase tracking-wider"
-                        active-class="!text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#E10600]">
+                        active-class="!text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-brand-500 after:rounded-full after:scale-x-100 after:origin-center after:transition-transform after:duration-300 after:ease-out">
                         {{ item.label }}
                     </NuxtLink>
                 </nav>

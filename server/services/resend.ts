@@ -25,13 +25,16 @@ export async function sendOtpEmail(
 ) {
   const resend = getResend();
   if (!resend) {
+    const log = createRequestLogger({
+      email: { type: "otp", to, devMode: true },
+    });
+    log.emit();
     return;
   }
 
   // Render the email template with the OTP and magic link
   const { default: template } = await import("../emails/otpEmail.vue");
   const html = await render(template, { otp, magicLink: magicLink || "" });
-
   try {
     // Send the email using Resend
     const { error } = await resend.emails.send({
@@ -69,6 +72,30 @@ export async function sendWelcomeEmail(to: string, name: string) {
     subject: "Welcome to F1 League",
     html,
   });
+}
+
+export async function sendResetPasswordEmail(
+  to: string,
+  name: string,
+  url: string,
+) {
+  const resend = getResend();
+  if (!resend) {
+    const log = createRequestLogger({
+      email: { type: "reset-password", to, devMode: true },
+    });
+    log.emit();
+    return;
+  }
+
+  //   const { default: template } = await import('../emails/resetPasswordEmail.vue')
+  //   const html = await render(template, { name, url })
+  //   await resend.emails.send({
+  //     from: getSender(),
+  //     to,
+  //     subject: 'Reset your F1 League password',
+  //     html,
+  //   })
 }
 
 export async function sendReminderEmail(

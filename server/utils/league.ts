@@ -77,12 +77,14 @@ export async function getLeagueById(leagueId: string) {
   return league;
 }
 
-// export async function getLeagueScoringConfig(leagueId: string): Promise<import('./scoring').ScoringConfig> {
-//   const league = await getLeagueById(leagueId)
+export async function getLeagueScoringConfig(
+  leagueId: string,
+): Promise<import("./scoring").ScoringConfig> {
+  const league = await getLeagueById(leagueId);
 
-//   if (league.scoringConfig) {
-//     return league.scoringConfig as import('./scoring').ScoringConfig
-//   }
+  if (league.scoringConfig) {
+    return league.scoringConfig as import("./scoring").ScoringConfig;
+  }
 
-//   return getScoringConfig()
-// }
+  return getScoringConfig();
+}
